@@ -9,6 +9,7 @@
 | 單元 | 用途 | 實測實用程度 |
 | --- | --- | --- |
 | [gentle-grill-me](gentle-grill-me/) | 壓力測試計畫，但不使用讓人覺得被看扁的措辭 | ★★★★☆ |
+| [local-review-loop](local-review-loop/) | 每輪最多 10 個有證據的質疑，修或記 blocker，直到沒有新質疑 | ★☆☆☆☆ |
 | [reality-slap-skill](reality-slap-skill/) | 讓建議錨在證據上，而不是跟著最新提問框架搖擺 | ★★★☆☆ |
 | [claude-env](claude-env/) | Claude Code 環境、marketplace，以及 misc / squad / battle plugins | ★★☆☆☆ |
 | [Bald-Patch](Bald-Patch/) | Codex anti-overbuild：最小安全 diff，並審查是否過度工程 | ★☆☆☆☆ |
@@ -30,6 +31,22 @@ cd gentle-grill-me
 ```
 
 把 `grok` 換成 `claude`、`cursor` 或 `all`，會裝到對應工具。細節以 [gentle-grill-me/README.md](gentle-grill-me/README.md) 為準。
+
+### [local-review-loop](local-review-loop/)
+
+對目前專案跑 local review loop：每輪找出最多 10 個有路徑或命令證據的質疑，當場修或記 blocker，再開下一輪，直到某一輪沒有新的真實質疑。結束時盤點仍無法解決的項目。觸發語是 `提出 10 個質疑`、`local review loop` 或 `/local-review-loop`。尚未實測。
+
+```powershell
+cd local-review-loop
+.\scripts\install.ps1 grok
+```
+
+```bash
+cd local-review-loop
+./scripts/install.sh grok
+```
+
+細節以 [local-review-loop/README.md](local-review-loop/README.md) 為準。
 
 ### [reality-slap-skill](reality-slap-skill/)
 
