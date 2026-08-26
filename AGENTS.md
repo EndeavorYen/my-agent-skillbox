@@ -70,9 +70,12 @@ my-agent-skillbox/
 結構固定為這個順序：
 
 1. 標題與兩段說明：這是公開 skill 目錄；一級資料夾互相獨立；安裝先 `cd` 再跑該單元自己的指令。
-2. `## Dedicated skills`：根目錄有 `SKILL.md` 的單元。
-3. `## Plugin / Codex packs`：巢狀 `SKILL.md` 的單元。
-4. 一段指向 `AGENTS.md` 的規範連結，以及 `python tools/check_monorepo.py`。
+2. 一覽表：每個一級單元一列，欄位為單元、用途、實測實用程度。
+3. `## Dedicated skills`：根目錄有 `SKILL.md` 的單元。
+4. `## Plugin / Codex packs`：巢狀 `SKILL.md` 的單元。
+5. 一段指向 `AGENTS.md` 的規範連結，以及 `python tools/check_monorepo.py`。
+
+實測實用程度用 1 到 5 顆星（`★` 實心、`☆` 空心，合計五格）。它是維護者使用觀感，不是評測分數：1 幾乎不派上用場，5 會主動拿來用。改星等與改 README 是同一次變更。
 
 每個一級單元用恰好一個三級標題，形式固定：
 
@@ -87,7 +90,7 @@ my-agent-skillbox/
 1. **用途**：一到三句。名稱、路徑、指令保留原文；說明用繁體中文。
 2. **狀態**：若來源 GitHub repo 已 archive，在用途裡寫明。若它是別的 archive repo 合併後的活來源，寫明那些 archive 的名字與它們現在落在這個資料夾的哪一層。
 3. **安裝**：先寫 `cd <folder>`，再寫該單元自己文件裡的安裝指令。Windows 與 Unix 分成兩個 fence。根目錄 README 不發明第二套安裝協定；細節連到該單元自己的 README 或安裝文件。
-4. **內層清單**：只有 pack 需要。用表格列出內層 skill 或 command 的名稱與一句用途。不要為內層項目寫獨立安裝指令。
+4. **內層清單**：只有 pack 需要。用表格列出內層 skill 或 command 的名稱、一句用途、與實測實用程度。不要為內層項目寫獨立安裝指令。
 
 同步規則：根目錄 README 的三級標題集合，必須等於含有 `SKILL.md` 的一級資料夾集合。多一個標題或少一個資料夾，都是不完整的變更。
 
