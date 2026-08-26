@@ -1,0 +1,178 @@
+import assert from "node:assert/strict";
+import path from "node:path";
+import { describe, it } from "node:test";
+
+import { readTasks } from "../scripts/fixture-utils.mjs";
+import { buildRunPlan } from "../scripts/run-ab.mjs";
+
+const TASK_ROOT = path.join(process.cwd(), "evals", "tasks");
+
+describe("M1 eval tasks", () => {
+  it("defines 10 smoke tasks across real and trap categories", () => {
+    const tasks = readTasks(TASK_ROOT);
+
+    assert.equal(tasks.length, 10);
+    assert.equal(tasks.filter((task) => task.kind === "real").length, 4);
+    assert.equal(tasks.filter((task) => task.kind === "trap").length, 6);
+
+    for (const task of tasks) {
+      assert.match(task.id, /^[a-z0-9-]+$/);
+      assert.match(task.public_id, /^task-\d{3}$/);
+      assert.equal(typeof task.title, "string");
+      assert.equal(typeof task.prompt, "string");
+      assert.ok(task.prompt.length > 20);
+      assert.ok(Array.isArray(task.success_criteria));
+      assert.ok(task.success_criteria.length >= 2);
+      assert.ok(Array.isArray(task.overbuild_risks));
+      assert.ok(task.overbuild_risks.length >= 1);
+      assert.equal(typeof task.fixture?.project, "string");
+      assert.equal(typeof task.fixture?.acceptance, "string");
+      assert.equal(typeof task.fixture?.verify, "string");
+      assert.match(task.fixture.verify, new RegExp(`--task ${task.id}\\b`));
+    }
+  });
+
+  it("provides clean M2 natural-baseline prompt text", () => {
+    const naturalRuns = buildRunPlan(readTasks(TASK_ROOT, { mode: "m2" }), { mode: "m2" })
+      .filter((run) => run.arm === "natural-baseline");
+
+    assert.equal(naturalRuns.length, 11);
+    for (const run of naturalRuns) {
+      assert.match(run.task_id, /^task-\d{3}$/);
+      assert.doesNotMatch(run.task_id, /lodash|plugin|rewrite|library|provider/i);
+      assert.doesNotMatch(run.prompt, /Success criteria:/);
+      assert.doesNotMatch(run.prompt, /Overbuild risks to watch:/);
+      assert.doesNotMatch(
+        run.prompt,
+        /without|dependency|framework|plugin|rewrite|smallest|prefer native/i,
+      );
+    }
+  });
+
+  it("adds M2-only positive-control tasks without changing the M1 task set", () => {
+    const m1Tasks = readTasks(TASK_ROOT);
+    const m2Tasks = readTasks(TASK_ROOT, { mode: "m2" });
+
+    assert.equal(m1Tasks.length, 10);
+    assert.equal(m2Tasks.length, 11);
+    assert.equal(m2Tasks.filter((task) => task.kind === "positive-control").length, 1);
+
+    const m2Plan = buildRunPlan(m2Tasks, { mode: "m2" });
+    assert.equal(m2Plan.length, 33);
+    assert.deepEqual(
+      m2Plan
+        .filter((run) => run.fixture_task_id === "shared-format-helper")
+        .map((run) => run.arm),
+      ["natural-baseline", "prompt-control", "baldpatch-skill"],
+    );
+  });
+
+  it("uses the M2 task corpus for M4 reviewer-proof canaries", () => {
+    const m4Tasks = readTasks(TASK_ROOT, { mode: "m4" });
+    const m4Plan = buildRunPlan(m4Tasks, { mode: "m4" });
+
+    assert.equal(m4Tasks.length, 11);
+    assert.equal(m4Plan.length, 11);
+    assert.deepEqual(
+      m4Plan
+        .filter((run) => run.fixture_task_id === "shared-format-helper")
+        .map((run) => run.arm),
+      ["m4-reviewer-proof-control"],
+    );
+  });
+
+  it("defines a curated M5 suite with at least half holdout tasks", () => {
+    const m5Tasks = readTasks(TASK_ROOT, { mode: "m5" });
+    const m5Plan = buildRunPlan(m5Tasks, { mode: "m5" });
+
+    assert.equal(m5Tasks.length, 12);
+    assert.equal(m5Tasks.filter((task) => task.kind === "m5-known-failure").length, 6);
+    assert.equal(m5Tasks.filter((task) => task.kind === "m5-holdout").length, 6);
+    assert.equal(m5Plan.length, 48);
+    assert.deepEqual([...new Set(m5Plan.map((run) => run.arm))], [
+      "natural-baseline",
+      "prompt-control",
+      "old-baldpatch-skill",
+      "provisional-baldpatch-skill",
+    ]);
+
+    for (const task of m5Tasks) {
+      assert.match(task.public_id, /^m5-task-\d{3}$/);
+      assert.equal(typeof task.m5_rule_area, "string");
+      assert.equal(typeof task.m5_case, "string");
+      assert.match(task.fixture.verify, new RegExp(`--task ${task.id}\\b`));
+    }
+  });
+
+  it("defines an M7 pairwise suite from M5 loss cases and regression canaries", () => {
+    const m7Tasks = readTasks(TASK_ROOT, { mode: "m7" });
+    const m7Plan = buildRunPlan(m7Tasks, { mode: "m7" });
+
+    assert.equal(m7Tasks.length, 10);
+    assert.deepEqual(m7Tasks.map((task) => task.public_id), [
+      "m5-task-001",
+      "m5-task-002",
+      "m5-task-003",
+      "m5-task-004",
+      "m5-task-005",
+      "m5-task-007",
+      "m5-task-008",
+      "m5-task-010",
+      "m5-task-011",
+      "m5-task-012",
+    ]);
+    assert.equal(m7Plan.length, 20);
+    assert.deepEqual([...new Set(m7Plan.map((run) => run.arm))], [
+      "old-baldpatch-skill",
+      "revised-baldpatch-skill",
+    ]);
+  });
+
+  it("defines an M8 diagnostic suite from timer and tie-breaker probes", () => {
+    const m8Tasks = readTasks(TASK_ROOT, { mode: "m8" });
+    const m8Plan = buildRunPlan(m8Tasks, { mode: "m8" });
+
+    assert.equal(m8Tasks.length, 6);
+    assert.deepEqual(m8Tasks.map((task) => task.public_id), [
+      "m5-task-002",
+      "m5-task-003",
+      "m5-task-004",
+      "m5-task-005",
+      "m5-task-008",
+      "m5-task-011",
+    ]);
+    assert.equal(m8Plan.length, 12);
+    assert.deepEqual([...new Set(m8Plan.map((run) => run.arm))], [
+      "revised-baldpatch-skill",
+      "m8-timer-proof-draft",
+    ]);
+  });
+
+  it("defines an M9 repeatability suite from the timer reversal canaries", () => {
+    const m9Tasks = readTasks(TASK_ROOT, { mode: "m9" });
+    const m9Plan = buildRunPlan(m9Tasks, { mode: "m9" });
+
+    assert.equal(m9Tasks.length, 2);
+    assert.deepEqual(m9Tasks.map((task) => task.public_id), [
+      "m5-task-008",
+      "m5-task-011",
+    ]);
+    assert.equal(m9Plan.length, 20);
+    assert.deepEqual([...new Set(m9Plan.map((run) => run.arm))], [
+      "revised-baldpatch-skill",
+      "m9-timer-proof-draft",
+    ]);
+    assert.deepEqual([...new Set(m9Plan.map((run) => run.seed))], [1, 2, 3, 4, 5]);
+
+    for (const task of m9Tasks) {
+      const taskRuns = m9Plan.filter((run) => run.task_id === task.public_id);
+      assert.equal(taskRuns.length, 10);
+      for (const seed of [1, 2, 3, 4, 5]) {
+        assert.deepEqual(
+          taskRuns.filter((run) => run.seed === seed).map((run) => run.arm),
+          ["revised-baldpatch-skill", "m9-timer-proof-draft"],
+        );
+      }
+    }
+  });
+});

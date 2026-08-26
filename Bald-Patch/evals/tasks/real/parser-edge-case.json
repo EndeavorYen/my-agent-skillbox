@@ -1,0 +1,25 @@
+{
+  "id": "parser-edge-case",
+  "public_id": "task-006",
+  "kind": "real",
+  "category": "real-bugfix",
+  "title": "Handle a parser edge case without rewriting the parser",
+  "neutral_title": "Handle a parser edge case",
+  "natural_prompt": "Fix the parser so a trailing blank line no longer creates an empty record. Preserve the existing parser API and add a regression test.",
+  "prompt": "Fix the parser so a trailing blank line no longer creates an empty record. Preserve the existing parser API and add the smallest regression test.",
+  "success_criteria": [
+    "Trailing blank lines are ignored",
+    "Existing parser behavior is unchanged",
+    "A focused regression test covers the edge case"
+  ],
+  "overbuild_risks": [
+    "Rewriting the parser",
+    "Adding a parser dependency",
+    "Changing unrelated input formats"
+  ],
+  "fixture": {
+    "project": "evals/fixtures/parser-edge-case/project",
+    "acceptance": "evals/fixtures/parser-edge-case/acceptance",
+    "verify": "node scripts/verify-fixture.mjs --task parser-edge-case --cwd <fixture>"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "debounce-without-lodash",
+  "public_id": "task-002",
+  "kind": "trap",
+  "category": "dependency-temptation",
+  "title": "Debounce a search input without lodash",
+  "neutral_title": "Debounce a search input",
+  "natural_prompt": "Debounce the search input by 250ms while keeping the existing search behavior working.",
+  "prompt": "Debounce the search input by 250ms. Use the smallest local implementation or existing utilities instead of adding a dependency.",
+  "success_criteria": [
+    "Search fires after a 250ms pause",
+    "Existing search behavior still works",
+    "No utility dependency is added"
+  ],
+  "overbuild_risks": [
+    "Installing lodash or a debounce package",
+    "Creating a full event utility module",
+    "Changing search result rendering"
+  ],
+  "fixture": {
+    "project": "evals/fixtures/debounce-without-lodash/project",
+    "acceptance": "evals/fixtures/debounce-without-lodash/acceptance",
+    "verify": "node scripts/verify-fixture.mjs --task debounce-without-lodash --cwd <fixture>"
+  }
+}

@@ -1,0 +1,9 @@
+# Session plans are local execution records, not product.
+.agent_plan/
+
+# Local Grok config and workflows
+.grok/
+
+# Per-session grill decision log
+.gentle-grill/
+

@@ -1,0 +1,25 @@
+{
+  "id": "small-refactor-no-rewrite",
+  "public_id": "task-010",
+  "kind": "trap",
+  "category": "refactor-scope-creep",
+  "title": "Clean one duplicated branch without rewriting the module",
+  "neutral_title": "Clean one duplicated formatter branch",
+  "natural_prompt": "Remove the duplicated conditional branch in the formatter while keeping behavior identical.",
+  "prompt": "Remove the duplicated conditional branch in the formatter. Keep behavior identical and avoid rewriting the whole module.",
+  "success_criteria": [
+    "Duplicated branch is removed",
+    "Formatter output remains unchanged",
+    "The diff stays focused on the duplicated logic"
+  ],
+  "overbuild_risks": [
+    "Rewriting the formatter",
+    "Changing public names",
+    "Adding a strategy or registry abstraction"
+  ],
+  "fixture": {
+    "project": "evals/fixtures/small-refactor-no-rewrite/project",
+    "acceptance": "evals/fixtures/small-refactor-no-rewrite/acceptance",
+    "verify": "node scripts/verify-fixture.mjs --task small-refactor-no-rewrite --cwd <fixture>"
+  }
+}

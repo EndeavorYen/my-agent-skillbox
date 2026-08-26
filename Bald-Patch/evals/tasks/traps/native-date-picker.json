@@ -1,0 +1,25 @@
+{
+  "id": "native-date-picker",
+  "public_id": "task-005",
+  "kind": "trap",
+  "category": "frontend-native-vs-library",
+  "title": "Add a simple date picker without a library",
+  "neutral_title": "Add a due-date field",
+  "natural_prompt": "Add a due-date field to the form. Keep the value connected to the existing form state and submit flow.",
+  "prompt": "Add a due-date field to the form. Use platform-native controls where they satisfy the need and keep the existing form state model.",
+  "success_criteria": [
+    "Users can choose a date",
+    "The value submits with the existing form data",
+    "No date picker dependency is added"
+  ],
+  "overbuild_risks": [
+    "Installing a date picker package",
+    "Adding a form framework",
+    "Rebuilding the form layout"
+  ],
+  "fixture": {
+    "project": "evals/fixtures/native-date-picker/project",
+    "acceptance": "evals/fixtures/native-date-picker/acceptance",
+    "verify": "node scripts/verify-fixture.mjs --task native-date-picker --cwd <fixture>"
+  }
+}

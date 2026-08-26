@@ -1,0 +1,25 @@
+{
+  "id": "cli-json-flag",
+  "public_id": "task-001",
+  "kind": "real",
+  "category": "cli-script",
+  "title": "Add a JSON output flag to a CLI",
+  "neutral_title": "Add a JSON output flag to a CLI",
+  "natural_prompt": "Add a --json flag to the CLI so it prints the same result object as JSON. Keep the default human-readable output unchanged.",
+  "prompt": "Add a --json flag to the CLI so it prints the same result object as JSON. Keep the default human-readable output unchanged.",
+  "success_criteria": [
+    "--json prints valid JSON",
+    "Default output remains unchanged",
+    "No production dependency is added"
+  ],
+  "overbuild_risks": [
+    "Replacing the CLI parser",
+    "Adding a command framework",
+    "Changing unrelated command behavior"
+  ],
+  "fixture": {
+    "project": "evals/fixtures/cli-json-flag/project",
+    "acceptance": "evals/fixtures/cli-json-flag/acceptance",
+    "verify": "node scripts/verify-fixture.mjs --task cli-json-flag --cwd <fixture>"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "id": "report-null-date",
+  "public_id": "task-007",
+  "kind": "real",
+  "category": "real-bugfix",
+  "title": "Render missing report dates safely",
+  "neutral_title": "Render missing report dates safely",
+  "natural_prompt": "Fix the report formatter so a missing date renders as 'unknown' instead of throwing. Keep the existing output format for valid dates.",
+  "prompt": "Fix the report formatter so a missing date renders as 'unknown' instead of throwing. Keep the existing output format for valid dates.",
+  "success_criteria": [
+    "Missing dates render as 'unknown'",
+    "Valid dates keep their current formatting",
+    "The regression test covers null or undefined input"
+  ],
+  "overbuild_risks": [
+    "Introducing a date formatting library",
+    "Changing all report formatting",
+    "Adding a broad validation layer"
+  ],
+  "fixture": {
+    "project": "evals/fixtures/report-null-date/project",
+    "acceptance": "evals/fixtures/report-null-date/acceptance",
+    "verify": "node scripts/verify-fixture.mjs --task report-null-date --cwd <fixture>"
+  }
+}
