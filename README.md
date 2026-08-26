@@ -8,10 +8,10 @@
 
 | 單元 | 用途 | 實測實用程度 |
 | --- | --- | --- |
-| [gentle-grill-me](gentle-grill-me/) | 壓力測試計畫，但不使用讓人覺得被看扁的措辭 | ★★★★★ |
+| [gentle-grill-me](gentle-grill-me/) | 壓力測試計畫，但不使用讓人覺得被看扁的措辭 | ★★★★☆ |
 | [reality-slap-skill](reality-slap-skill/) | 讓建議錨在證據上，而不是跟著最新提問框架搖擺 | ★★★☆☆ |
-| [claude-env](claude-env/) | Claude Code 環境、marketplace，以及 misc / squad / battle plugins | ★★★★★ |
-| [Bald-Patch](Bald-Patch/) | Codex anti-overbuild：最小安全 diff，並審查是否過度工程 | ★★★☆☆ |
+| [claude-env](claude-env/) | Claude Code 環境、marketplace，以及 misc / squad / battle plugins | ★★☆☆☆ |
+| [Bald-Patch](Bald-Patch/) | Codex anti-overbuild：最小安全 diff，並審查是否過度工程 | ★☆☆☆☆ |
 
 ## Dedicated skills
 
@@ -66,8 +66,8 @@ Windows 用 Git Bash 跑同一組指令。細節以 [claude-env/README.md](claud
 
 | Plugin | Inner skills / commands | 用途 | 實測實用程度 |
 | --- | --- | --- | --- |
-| `plugins/misc` | `challenge`, `code-review`, `design-check`, `scaffold-feature`, `test-gen`, `verify`, `write-doc` | 審查、對照設計、建骨架、產測試、驗證、寫文件、挑戰提案 | ★★★★★ |
-| `plugins/squad` | `mission-planning`, `role-forging`, `tool-forging`, `integration`, `gate-check`, `status-report`, `retrospective` | `/squad` 七段 pipeline：RECON → PLAN → EXECUTE → INTEGRATE → VERIFY → DEBRIEF → RETRO | ★★★☆☆ |
+| `plugins/misc` | `challenge`, `code-review`, `design-check`, `scaffold-feature`, `test-gen`, `verify`, `write-doc` | 審查、對照設計、建骨架、產測試、驗證、寫文件、挑戰提案 | ★★☆☆☆ |
+| `plugins/squad` | `mission-planning`, `role-forging`, `tool-forging`, `integration`, `gate-check`, `status-report`, `retrospective` | `/squad` 七段 pipeline：RECON → PLAN → EXECUTE → INTEGRATE → VERIFY → DEBRIEF → RETRO | ★★☆☆☆ |
 | `plugins/battle` | `/battle` command | 對抗式品質檢查 | ★★☆☆☆ |
 
 ### [Bald-Patch](Bald-Patch/)
@@ -90,8 +90,8 @@ cp -R .agents/skills/baldpatch-review "$HOME/.agents/skills/"
 
 | Skill | 用途 | 實測實用程度 |
 | --- | --- | --- |
-| `baldpatch-patch` | 以最小安全 diff 實作，避免多餘依賴與無關重寫 | ★★★☆☆ |
-| `baldpatch-review` | 審查 patch 是否過度工程，不當唯一裁判 | ★★★☆☆ |
+| `baldpatch-patch` | 以最小安全 diff 實作，避免多餘依賴與無關重寫 | ★☆☆☆☆ |
+| `baldpatch-review` | 審查 patch 是否過度工程，不當唯一裁判 | ★☆☆☆☆ |
 
 細節以 [Bald-Patch/docs/installation.md](Bald-Patch/docs/installation.md) 為準。
 
