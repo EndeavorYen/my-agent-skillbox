@@ -10,6 +10,7 @@
 | --- | --- | --- |
 | [gentle-grill-me](gentle-grill-me/) | 壓力測試計畫，但不使用讓人覺得被看扁的措辭 | ★★★★☆ |
 | [local-review-loop](local-review-loop/) | 每輪最多 10 個有證據的質疑，修或記 blocker，直到沒有新質疑 | ★☆☆☆☆ |
+| [musk-algorithm-skill](musk-algorithm-skill/) | 用 Musk 五步驟算法評估需求或設計：先質疑與刪除，然後才簡化、加速、自動化 | ★☆☆☆☆ |
 | [reality-slap-skill](reality-slap-skill/) | 讓建議錨在證據上，而不是跟著最新提問框架搖擺 | ★★★☆☆ |
 | [claude-env](claude-env/) | Claude Code 環境、marketplace，以及 misc / squad / battle plugins | ★★☆☆☆ |
 | [Bald-Patch](Bald-Patch/) | Codex anti-overbuild：最小安全 diff，並審查是否過度工程 | ★☆☆☆☆ |
@@ -47,6 +48,22 @@ cd local-review-loop
 ```
 
 細節以 [local-review-loop/README.md](local-review-loop/README.md) 為準。
+
+### [musk-algorithm-skill](musk-algorithm-skill/)
+
+用 Musk 的五步驟算法評估需求、設計或流程：先質疑需求（具名負責人）、盡量刪除（刪不夠就加不回 10%），然後才簡化、加速、自動化。預設產出結構化評估報告，不是直接改 code。觸發語是 `musk algorithm` 或 `/musk-algorithm`。獨立 GitHub repo：[musk-algorithm-skill](https://github.com/EndeavorYen/musk-algorithm-skill)。尚未實測。
+
+```powershell
+cd musk-algorithm-skill
+.\scripts\install.ps1 grok
+```
+
+```bash
+cd musk-algorithm-skill
+./scripts/install.sh grok
+```
+
+把 `grok` 換成 `claude`、`cursor`、`hermes` 或 `all`，會裝到對應工具。細節以 [musk-algorithm-skill/README.md](musk-algorithm-skill/README.md) 為準。
 
 ### [reality-slap-skill](reality-slap-skill/)
 
